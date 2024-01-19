@@ -1,3 +1,22 @@
+let number1 = 0
+let number2 = 0
+let operator = ""
+let displayValue = document.querySelector(".display")
+let empty = true
+let operatorClicked = false
+const numberButtons = document.querySelectorAll(".number")
+const operatorButton = document.querySelectorAll(".operator")
+const equalButton = document.querySelector(".equal")
+const clearButton = document.querySelector(".clear")
+const backspaceButton = document.querySelector(".backspace")
+let dotButton = document.querySelector(".dot")
+dotButton.disabled = false
+
+equalButton.addEventListener("click", () => clickEqual())
+clearButton.addEventListener("click", () => clickClear())
+backspaceButton.addEventListener("click", () => clickBack())
+dotButton.addEventListener("click", () => dotClicked())
+
 function add (a, b){
     result = parseInt(a) + parseInt(b)
     return result
@@ -14,18 +33,12 @@ function multiply (a, b) {
 function divide (a, b) {
     return a / b
 }
-
-let number1 = 0
-let number2 = 0
-let operator = ""
-let displayValue = document.querySelector(".display")
-let empty = true
-let operatorClicked = false
-const numberButtons = document.querySelectorAll(".number")
-const operatorButton = document.querySelectorAll(".operator")
-const equalButton = document.querySelector(".equal")
+function power (a, b) {
+    return a**b
+}
 
 function operate(number1, operator, number2){
+    number2 = parseFloat(number2)
     if (operator === "+"){
         return add(number1, number2)
     }
@@ -35,17 +48,18 @@ function operate(number1, operator, number2){
     else if (operator === "*"){
         return multiply(number1, number2)
     }
-    else if (operator === "/"){
-        return divide(number1, number2)
+    else if (operator === "/" && number2 !== 0){
+       return divide(number1, number2)
+    }
+    else if (operator === "^"){
+        return power(number1, number2)
     }
     else return "Error"
 }
-console.log(operate(8, "*", 9))
 
 function displayClick(clickedButton){
         if(!operatorClicked){
         number1 = clickedButton
-        console.log(number1)
         displayValue.innerText = clickedButton 
         if (number1 !== 0){
             empty = false
@@ -56,15 +70,12 @@ function displayClick(clickedButton){
        displayValue.innerText = clickedButton 
        if (number2 !== 0){
            empty = false
-       }
-       console.log(number1)
-       console.log(number2)
-       }
+       }}
     }  
-
 
 function clickOperator(operatorValue){
     operatorClicked = true
+    dotButton.disabled = false
     empty = true
     operator = operatorValue
     displayValue.innerText = number1 + " " + operatorValue
@@ -73,16 +84,59 @@ function clickOperator(operatorValue){
 function clickEqual() {
     if(operatorClicked){
     result = operate(number1, operator, number2)
+    result = parseFloat(result.toFixed(10))
     displayValue.innerText = number1 + "" + operator + "" + number2 + " = " + result
     number1 = parseInt(result)
     number2 = 0
     operatorClicked = false
-    empty
+    empty = true
     }
     else{
         displayValue.innerText = number1
     }
 }
+
+function clickClear(){
+    number1 = 0
+    number2 = 0
+    operatorClicked = false
+    dotButton.disabled = false
+    empty = true
+    displayValue.innerText = 0
+}
+
+function clickBack(){
+    if(!operatorClicked){
+        const newNumber = parseInt(number1.toString().slice(0, -1))
+        number1 = newNumber
+        displayValue.innerText = number1
+    }
+    else if (operatorClicked && number2 == 0){
+        operator = ""
+        operatorClicked = false
+        empty = false
+        displayValue.innerText = number1
+    }
+    else if (operatorClicked && number2 !== 0){
+        const newNumber = parseInt(number2.toString().slice(0, -1))
+        number2 = newNumber
+        displayValue.innerText = number2
+    }
+}
+
+function dotClicked(){
+    if(!operatorClicked && dotButton.disabled == false){
+        number1 = number1 + "."
+        displayValue.innerText = number1
+        dotButton.disabled = true
+    }
+    else if (operatorClicked && dotButton.disabled == false){
+        number2 = number2 + "."
+        displayValue.innerText = number2
+        dotButton.disabled = true
+    }
+}
+    
 
 operatorButton.forEach(button => {
     button.addEventListener("click", () => {
@@ -109,8 +163,4 @@ numberButtons.forEach(button => {
         }
     })
 })
-
-equalButton.addEventListener("click", () => clickEqual())
-    
-
 
