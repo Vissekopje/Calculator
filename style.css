@@ -1,0 +1,48 @@
+.background {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #110f11;
+    flex-direction: column;
+}
+.device{
+    border: 3px  solid rgb(243, 193, 212);
+    padding: 4px;
+    border-radius: 10px;
+    flex-direction: column;
+}
+.display {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    gap: 12px;
+    width: 250px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: rgb(243, 240, 243);
+    font-size: 24px;
+    flex-direction: column;
+}
+.column{
+    font-size: 12px;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.buttons {
+    display: flex;
+    gap: 3px;
+}
+button {
+    font-size: 16px;
+    width: 60px;
+    height: 60px;
+    border-radius: 6px;
+}
+
+h3 {
+    font-size: 35px;
+    color: rgb(243, 240, 243);
+}
